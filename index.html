@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>The Magical Cat Button</title>
+</head>
+
+<body>
+  <button id="cat-button">magical cat button</button>
+  <div id="images">
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    //create event handling function for on click of cat button
+    $("#cat-button").on("click", function() {
+
+      //introduced the API URL for giphy as a variable
+      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&tag=dogs";
+
+      // make the ajax call to pull API on every button click
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+
+        // run function when the call comes back. "then is a promise handler that takes as its first arguement the "success" callback 
+        //function, which recieves the ajax request 'response' as its argument. 
+        .then(function(response) {
+
+          //creating variable to pull data object out of response and pulling image out of data
+          var imageUrl = response.data.image_original_url;
+
+          // using variable catImage to create image element (that is not yet appended to the dom)
+          //storing a reference to the new image element in this variable
+          var catImage = $("<img>");
+
+          // giving attribute values to the img element 
+          catImage.attr("src", imageUrl);
+          catImage.attr("alt", "cat image");
+
+          // prepends (to the dom) the image tag from catImage with the attributes assigned in the prior lines of code
+          $("#images").prepend(catImage);
+        });
+    });
+  </script>
+</body>
+
+</html>
